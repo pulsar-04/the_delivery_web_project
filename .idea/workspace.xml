@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ba610552-8c48-4eb8-87cb-cf521706a21d" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/migrations/0002_remove_order_restaurant_remove_product_category_and_more.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/add_product.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/add_restaurant.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/client_dashboard.html" afterDir="false" />
@@ -105,7 +106,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1745142676077</updated>
-      <workItem from="1745142676960" duration="10773000" />
+      <workItem from="1745142676960" duration="11170000" />
     </task>
     <servers />
   </component>
