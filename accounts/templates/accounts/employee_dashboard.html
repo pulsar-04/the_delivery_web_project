@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Служебен дашбоард</title>
+</head>
+<body>
+    <h1>Добре дошли, служител!</h1>
+    <p>Тук можете да управлявате ресторанти и продукти.</p>
+    <a href="{% url 'add_restaurant' %}">Добави ресторант</a><br>
+    <a href="{% url 'add_product' %}">Добави продукт</a><br>
+    <a href="{% url 'logout' %}">Изход</a>
+</body>
+</html>

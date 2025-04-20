@@ -32,21 +32,18 @@ class Category(models.Model):
 class Restaurant(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15)
-    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 class Product(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menu')
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.restaurant.name})"
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -57,7 +54,6 @@ class Order(models.Model):
     ]
 
     client = models.ForeignKey('Client', on_delete=models.CASCADE, related_name='orders')
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
     products = models.ManyToManyField(Product, through='OrderItem')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
