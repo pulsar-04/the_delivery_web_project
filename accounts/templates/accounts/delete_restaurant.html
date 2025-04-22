@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Изтриване на ресторант</title>
+</head>
+<body>
+    <h1>Сигурни ли сте, че искате да изтриете ресторант "{{ restaurant.name }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Изтрий</button>
+    </form>
+</body>
+</html>

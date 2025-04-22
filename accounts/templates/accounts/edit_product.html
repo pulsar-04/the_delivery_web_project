@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактиране на продукт</title>
+</head>
+<body>
+    <h1>Редактиране на продукт</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Запази</button>
+    </form>
+</body>
+</html>

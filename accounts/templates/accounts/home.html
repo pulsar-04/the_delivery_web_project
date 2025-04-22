@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Домашна страница</title>
+    <title>Начална страница</title>
 </head>
 <body>
     <h1>Добре дошли в Food Delivery Web!</h1>
-    <p>Тук ще бъде вашата домашна страница.</p>
+    <p>Моля, изберете една от следните опции:</p>
+
+    <a href="{% url 'login' %}"><button>Вход</button></a><br><br>
+    <a href="{% url 'register' %}"><button>Регистрация</button></a>
 </body>
 </html>

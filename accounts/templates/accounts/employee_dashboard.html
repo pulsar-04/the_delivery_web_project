@@ -8,6 +8,29 @@
     <p>Тук можете да управлявате ресторанти и продукти.</p>
     <a href="{% url 'add_restaurant' %}">Добави ресторант</a><br>
     <a href="{% url 'add_product' %}">Добави продукт</a><br>
+
+    <h2>Ресторанти</h2>
+    <ul>
+        {% for restaurant in restaurants %}
+            <li>
+                {{ restaurant.name }} -
+                <a href="{% url 'edit_restaurant' restaurant.pk %}">Редактирай</a> |
+                <a href="{% url 'delete_restaurant' restaurant.pk %}">Изтрий</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Продукти</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }} -
+                <a href="{% url 'edit_product' product.pk %}">Редактирай</a> |
+                <a href="{% url 'delete_product' product.pk %}">Изтрий</a>
+            </li>
+        {% endfor %}
+    </ul>
+
     <a href="{% url 'logout' %}">Изход</a>
 </body>
 </html>

@@ -6,8 +6,8 @@ from django.contrib import messages
 from .models import *
 from .forms import CustomUserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Restaurant, Product
 from .forms import RestaurantForm, ProductForm
+from .models import Restaurant, Product
 
 # Create your views here.
 
@@ -87,8 +87,64 @@ def add_product(request):
 def client_dashboard(request):
     return render(request, 'accounts/client_dashboard.html')
 
+@login_required
 def employee_dashboard(request):
-    return render(request, 'accounts/employee_dashboard.html')
+    if not request.user.is_employee:
+        return redirect('home')
+    restaurants = Restaurant.objects.all()
+    products = Product.objects.all()
+    return render(request, 'accounts/employee_dashboard.html', {
+        'restaurants': restaurants,
+        'products': products,
+    })
 
 def delivery_person_dashboard(request):
     return render(request, 'accounts/delivery_person_dashboard.html')
+
+@login_required
+def edit_restaurant(request, pk):
+    if not request.user.is_employee:
+        return redirect('home')  # Само служители могат да редактират ресторанти
+    restaurant = get_object_or_404(Restaurant, pk=pk)
+    if request.method == 'POST':
+        form = RestaurantForm(request.POST, instance=restaurant)
+        if form.is_valid():
+            form.save()
+            return redirect('employee_dashboard')
+    else:
+        form = RestaurantForm(instance=restaurant)
+    return render(request, 'accounts/edit_restaurant.html', {'form': form})
+
+@login_required
+def delete_restaurant(request, pk):
+    if not request.user.is_employee:
+        return redirect('home')  # Само служители могат да изтриват ресторанти
+    restaurant = get_object_or_404(Restaurant, pk=pk)
+    if request.method == 'POST':
+        restaurant.delete()
+        return redirect('employee_dashboard')
+    return render(request, 'accounts/delete_restaurant.html', {'restaurant': restaurant})
+
+@login_required
+def edit_product(request, pk):
+    if not request.user.is_employee:
+        return redirect('home')  # Само служители могат да редактират продукти
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('employee_dashboard')
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'accounts/edit_product.html', {'form': form})
+
+@login_required
+def delete_product(request, pk):
+    if not request.user.is_employee:
+        return redirect('home')  # Само служители могат да изтриват продукти
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('employee_dashboard')
+    return render(request, 'accounts/delete_product.html', {'product': product})
