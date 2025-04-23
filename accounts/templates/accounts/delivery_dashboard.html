@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Дашбоард за доставки</title>
+</head>
+<body>
+    <h1>Добре дошли, доставчик!</h1>
+    <p>Тук можете да приемате и управлявате доставки.</p>
+
+    <h2>Активни доставки</h2>
+    <ul>
+        {% for order in orders %}
+            <li>
+                Поръчка #{{ order.id }} -
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>{{ item.quantity }} x {{ item.product.name }} ({{ item.price }} лв.)</li>
+                    {% endfor %}
+                </ul>
+                Адрес: {{ order.address }}<br>
+                Телефон: {{ order.phone_number }}<br>
+                Обща цена: {{ order.total_price }} лв.<br>
+                Статус:
+                {% if order.status == 'pending' %}
+                    В процес
+                {% elif order.status == 'shipped' %}
+                    Изпратена
+                {% elif order.status == 'delivered' %}
+                    Доставена
+                {% endif %}<br>
+                {% if order.delivery_person is None and order.status == 'pending' %}
+                    <!-- Бутон за приемане на доставка -->
+                    <a href="{% url 'accept_delivery' order.pk %}">Приеми доставка</a>
+                {% elif order.delivery_person == request.user and order.status == 'shipped' %}
+                    <!-- Бутон за маркиране като доставена -->
+                    <a href="{% url 'mark_as_delivered' order.pk %}">Маркирай като доставена</a>
+                {% else %}
+                    Взета от друг доставчик
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Няма налични доставки.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Линк за изход -->
+    <a href="{% url 'logout' %}">Изход</a>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Финализиране на поръчка</title>
+</head>
+<body>
+    <h1>Финализиране на поръчка</h1>
+
+    <!-- Форма за въвеждане на адрес и телефон -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Финализирай поръчка</button>
+    </form>
+</body>
+</html>

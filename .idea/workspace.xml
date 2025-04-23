@@ -5,14 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba610552-8c48-4eb8-87cb-cf521706a21d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/delete_product.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/delete_restaurant.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/edit_product.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/edit_restaurant.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/checkout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/create_order.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/delivery_dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/track_orders.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/view_cart.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/view_products.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/employee_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/employee_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/client_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/client_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/delete_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/delete_product.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/delivery_person_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/delivery_person_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/edit_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/edit_product.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
     </list>
@@ -36,7 +41,9 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2vzKtMvzY8TQjJrvfROjRIYTxOS" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -108,6 +115,8 @@
       <workItem from="1745258260840" duration="2919000" />
       <workItem from="1745263040135" duration="15000" />
       <workItem from="1745263396388" duration="1206000" />
+      <workItem from="1745310407525" duration="1834000" />
+      <workItem from="1745409015484" duration="12517000" />
     </task>
     <servers />
   </component>

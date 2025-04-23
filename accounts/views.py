@@ -4,10 +4,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib import messages
 from .models import *
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CheckoutForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import RestaurantForm, ProductForm
 from .models import Restaurant, Product
+from .forms import OrderForm
 
 # Create your views here.
 
@@ -148,3 +149,185 @@ def delete_product(request, pk):
         product.delete()
         return redirect('employee_dashboard')
     return render(request, 'accounts/delete_product.html', {'product': product})
+
+@login_required
+def view_products(request):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да правят поръчки
+
+    category = request.GET.get('category')
+    if category:
+        products = Product.objects.filter(category=category)
+    else:
+        products = Product.objects.all()
+
+    categories = Product.CATEGORY_CHOICES  # Всички налични категории
+
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        product = get_object_or_404(Product, pk=product_id)
+
+        # Добавяне или актуализиране на продукта в количката
+        cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product)
+        if created:
+            cart_item.quantity = quantity  # Ако е нов запис, задаваме количеството
+        else:
+            cart_item.quantity += quantity  # Ако вече съществува, увеличаваме количеството
+        cart_item.save()
+
+        return redirect('view_products')
+
+    return render(request, 'accounts/view_products.html', {'products': products, 'categories': categories})
+
+
+@login_required
+def delivery_dashboard(request):
+    if not request.user.is_delivery_person:
+        return redirect('home')  # Само доставчици могат да виждат този дашбоард
+
+    # Филтриране на поръчки според статуса
+    orders = Order.objects.filter(status__in=['pending', 'shipped']).order_by('-created_at')
+
+    return render(request, 'accounts/delivery_dashboard.html', {'orders': orders})
+
+
+@login_required
+def accept_delivery(request, pk):
+    if not request.user.is_delivery_person:
+        return redirect('home')  # Само доставчици могат да приемат доставки
+
+    order = get_object_or_404(Order, pk=pk)
+    if order.status == 'pending':
+        order.status = 'shipped'
+        order.delivery_person = request.user
+        order.save()
+    return redirect('delivery_dashboard')
+
+
+@login_required
+def create_order(request):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да правят поръчки
+
+    # Филтриране на продукти според категорията
+    category = request.GET.get('category')
+    if category:
+        products = Product.objects.filter(category=category)
+    else:
+        products = Product.objects.all()
+
+    categories = Product.CATEGORY_CHOICES  # Всички налични категории
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.client = Client.objects.get(user=request.user)
+
+            # Изчисляване на общата цена на поръчката
+            total_price = 0
+            for item in form.cleaned_data['items']:
+                quantity = int(request.POST.get(f'quantity_{item.id}', 1))  # Вземаме количеството от заявката
+                price = item.price * quantity
+                total_price += price
+
+            order.total_price = total_price
+            order.save()
+
+            # Създаване на OrderItem записи
+            for item in form.cleaned_data['items']:
+                quantity = int(request.POST.get(f'quantity_{item.id}', 1))
+                OrderItem.objects.create(
+                    order=order,
+                    product=item,
+                    quantity=quantity,
+                    price=item.price * quantity
+                )
+
+            # Пренасочване към страницата за финализиране на поръчка
+            return redirect('checkout', order_id=order.pk)
+    else:
+        form = OrderForm()
+    return render(request, 'accounts/create_order.html', {'form': form, 'products': products, 'categories': categories})
+
+@login_required
+def mark_as_delivered(request, pk):
+    if not request.user.is_delivery_person:
+        return redirect('home')  # Само доставчици могат да маркират доставки
+
+    order = get_object_or_404(Order, pk=pk)
+    if order.delivery_person == request.user and order.status == 'shipped':
+        order.status = 'delivered'
+        order.save()
+    return redirect('delivery_dashboard')
+
+@login_required
+def add_to_cart(request, pk):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да добавят продукти в количката
+    product = get_object_or_404(Product, pk=pk)
+    cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product)
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    return redirect('view_products')
+@login_required
+def view_cart(request):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да правят поръчки
+    cart_items = CartItem.objects.filter(user=request.user)
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'accounts/view_cart.html', {'cart_items': cart_items, 'total_price': total_price})
+
+@login_required
+def remove_from_cart(request, pk):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да премахват продукти от количката
+    cart_item = get_object_or_404(CartItem, pk=pk, user=request.user)
+    cart_item.delete()
+    return redirect('view_cart')
+
+
+@login_required
+def checkout(request):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да правят поръчки
+
+    client = Client.objects.get(user=request.user)
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            address = form.cleaned_data['address']
+            phone_number = form.cleaned_data['phone_number']
+
+            # Създаване на поръчка
+            order = Order.objects.create(
+                client=client,
+                total_price=sum(item.product.price * item.quantity for item in cart_items),
+                status='pending',
+                address=address,
+                phone_number=phone_number
+            )
+            for item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price * item.quantity
+                )
+            cart_items.delete()  # Изчистваме количката
+            return redirect('client_dashboard')
+    else:
+        form = CheckoutForm()
+    return render(request, 'accounts/checkout.html', {'form': form})
+
+@login_required
+def track_orders(request):
+    if not request.user.is_client:
+        return redirect('home')  # Само клиенти могат да проследяват поръчки
+    client = Client.objects.get(user=request.user)
+    orders = Order.objects.filter(client=client).order_by('-created_at')
+    return render(request, 'accounts/track_orders.html', {'orders': orders})

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Количка</title>
+</head>
+<body>
+    <h1>Количка</h1>
+
+    <!-- Списък с продукти -->
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item.quantity }} x {{ item.product.name }} ({{ item.product.price }} лв.)
+                <a href="{% url 'remove_from_cart' item.pk %}">Премахни</a>
+            </li>
+        {% empty %}
+            <li>Вашата количка е празна.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Обща цена -->
+    {% if cart_items %}
+        <p>Обща цена: {{ total_price }} лв.</p>
+    {% endif %}
+
+    <!-- Бутон за финализиране на поръчка -->
+    <a href="{% url 'checkout' %}">Финализирай поръчка</a>
+
+    <!-- Линк към дашбоарда -->
+    <a href="{% url 'client_dashboard' %}">Обратно към дашбоарда</a>
+</body>
+</html>
