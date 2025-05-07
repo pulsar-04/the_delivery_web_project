@@ -27,5 +27,16 @@ urlpatterns = [
     path('remove-from-cart/<int:pk>/', views.remove_from_cart, name='remove_from_cart'),
     path('checkout/', views.checkout, name='checkout'),
     path('track-orders/', views.track_orders, name='track_orders'),
+    path('admin/turnover-report/', views.turnover_report, name='turnover_report'),
+    path('turnover-report/', views.turnover_report, name='turnover_report'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/turnover-report/', views.turnover_report, name='turnover_report'),
+    path('turnover-report/', views.turnover_report, name='turnover_report'),
+    path('generate-turnover-report/', views.generate_turnover_report, name='generate_turnover_report'),
+    path ('earnings-report/', views.earnings_report, name='earnings_report'),
+
 
 ]
+'''
+path('turnover-report/', views.turnover_report, name='turnover_report'),
+'''

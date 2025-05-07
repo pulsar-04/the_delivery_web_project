@@ -22,11 +22,12 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.urls import path, include
+
 from accounts.views import home
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),  # Нов маршрут за домашна страница
-    path('', include('accounts.urls')),  # Включване на URL-овете на accounts приложението
+    path('', home, name='home'),
+    path('', include('accounts.urls')),
 ]

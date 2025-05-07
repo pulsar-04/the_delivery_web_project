@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Справка за приходи по доставчици</h1>
+
+<p><strong>Период:</strong> {{ start_date }} - {{ end_date }}</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Доставчик</th>
+            <th>Общ приход</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in supplier_income %}
+            <tr>
+                <td>{{ entry.supplier__name }}</td>
+                <td>{{ entry.total_income }} лв.</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">Няма данни за този период.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'admin:index' %}">Обратно към админ панела</a>
+{% endblock %}

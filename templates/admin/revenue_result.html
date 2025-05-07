@@ -1,0 +1,37 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div style="padding: 20px; font-family: Arial;">
+    <h2>Изчисляване на оборот</h2>
+    <form method="post" style="margin-bottom: 20px;">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            {{ form.start_date.label_tag }}<br>
+            {{ form.start_date }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            {{ form.end_date.label_tag }}<br>
+            {{ form.end_date }}
+        </div>
+        <button type="submit" name="apply" style="
+            padding: 8px 16px;
+            background: #417690;
+            color: white;
+            border: none;
+            cursor: pointer;
+        ">Изчисли</button>
+    </form>
+
+    {% if total is not None %}
+    <div style="
+        margin-top: 20px;
+        padding: 15px;
+        background: #f0f0f0;
+        border-left: 4px solid #417690;
+    ">
+        <h3 style="margin-top: 0;">Резултат:</h3>
+        <p>Оборот от <strong>{{ start_date }}</strong> до <strong>{{ end_date }}</strong>: 
+        <span style="font-size: 1.2em; color: #417690;"><strong>{{ total|floatformat:2 }} лв.</strong></span></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

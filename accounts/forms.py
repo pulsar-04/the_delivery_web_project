@@ -4,7 +4,7 @@ from .models import Restaurant, Product
 from django import forms
 from .models import Order, OrderItem, Product
 
-
+'''
 class CustomUserCreationForm(UserCreationForm):
     ROLE_CHOICES = [
         ('client', 'Клиент'),
@@ -16,6 +16,24 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2', 'role')  # Добавяме полето "role"
+
+'''
+class CustomUserCreationForm(UserCreationForm):
+    role = forms.ChoiceField(
+        choices=[
+            ('client', 'Клиент'),
+            ('employee', 'Служител'),
+            ('delivery_person', 'Доставчик'),
+        ],
+        widget=forms.RadioSelect,
+        required=True,
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2', 'role')
+
+
 
 
 
@@ -46,4 +64,12 @@ class CheckoutForm(forms.Form):
     address = forms.CharField(max_length=255, required=True, label="Адрес")
     phone_number = forms.CharField(max_length=20, required=True, label="Телефонен номер")
 
-
+class DateRangeForm(forms.Form):
+    start_date = forms.DateField(
+        label="От дата",
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+    end_date = forms.DateField(
+        label="До дата",
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )

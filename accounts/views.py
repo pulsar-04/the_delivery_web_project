@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib import messages
@@ -9,6 +8,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import RestaurantForm, ProductForm
 from .models import Restaurant, Product
 from .forms import OrderForm
+from django.db.models import Sum
+from datetime import datetime
 
 # Create your views here.
 
@@ -18,15 +19,25 @@ def register(request):
         if form.is_valid():
             user = form.save(commit=False)
             role = form.cleaned_data.get('role')
+
+            # Задаване на ролята на потребителя
             if role == 'client':
                 user.is_client = True
             elif role == 'employee':
                 user.is_employee = True
             elif role == 'delivery_person':
                 user.is_delivery_person = True
+
             user.save()
+
+            # Създаване на допълнителни модели според ролята
             if user.is_client:
                 Client.objects.create(user=user, address='Default Address')
+            elif user.is_employee:
+                Employee.objects.create(user=user)
+            elif user.is_delivery_person:
+                DeliveryPerson.objects.create(user=user)
+
             messages.success(request, f'Акаунтът за {user.username} е създаден успешно!')
             return redirect('login')
     else:
@@ -101,6 +112,10 @@ def employee_dashboard(request):
 
 def delivery_person_dashboard(request):
     return render(request, 'accounts/delivery_person_dashboard.html')
+
+def delivery_dashboard(request):
+    active_orders = Order.objects.filter(delivery_person=request.user.deliveryperson, status='shipped')
+    return render(request, 'accounts/delivery_dashboard.html', {'orders': active_orders})
 
 @login_required
 def edit_restaurant(request, pk):
@@ -192,16 +207,26 @@ def delivery_dashboard(request):
     return render(request, 'accounts/delivery_dashboard.html', {'orders': orders})
 
 
-@login_required
+#@login_required
 def accept_delivery(request, pk):
-    if not request.user.is_delivery_person:
-        return redirect('home')  # Само доставчици могат да приемат доставки
-
     order = get_object_or_404(Order, pk=pk)
-    if order.status == 'pending':
-        order.status = 'shipped'
-        order.delivery_person = request.user
-        order.save()
+
+    # Проверка дали поръчката е вече взета от доставчик
+    if order.delivery_person is not None:
+        messages.error(request, "Тази поръчка вече е взета.")
+        return redirect('delivery_dashboard')
+
+    # Задаване на текущия доставчик като доставчик на поръчката
+    delivery_person = request.user.deliveryperson  # Предполагаме, че доставчикът е логнат
+    order.delivery_person = delivery_person
+    order.status = 'shipped'
+    order.save()
+
+    # Актуализиране на оборота на доставчика
+    delivery_person.total_turnover += order.total_price
+    delivery_person.save()
+
+    messages.success(request, "Успешно сте взели поръчка.")
     return redirect('delivery_dashboard')
 
 
@@ -253,13 +278,18 @@ def create_order(request):
 
 @login_required
 def mark_as_delivered(request, pk):
-    if not request.user.is_delivery_person:
-        return redirect('home')  # Само доставчици могат да маркират доставки
-
     order = get_object_or_404(Order, pk=pk)
-    if order.delivery_person == request.user and order.status == 'shipped':
-        order.status = 'delivered'
-        order.save()
+
+    # Проверка дали поръчката вече е доставена
+    if order.status == 'delivered':
+        messages.error(request, "Тази поръчка вече е доставена.")
+        return redirect('delivery_dashboard')
+
+    # Маркиране на поръчката като доставена
+    order.status = 'delivered'
+    order.save()
+
+    messages.success(request, "Успешно маркирахте поръчката като доставена.")
     return redirect('delivery_dashboard')
 
 @login_required
@@ -331,3 +361,99 @@ def track_orders(request):
     client = Client.objects.get(user=request.user)
     orders = Order.objects.filter(client=client).order_by('-created_at')
     return render(request, 'accounts/track_orders.html', {'orders': orders})
+
+def turnover_report(request):
+    # Вземане на начална и крайна дата от GET параметрите
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Инициализиране на променливи
+    delivered_orders = None
+    total_turnover = 0
+
+    if start_date and end_date:
+        try:
+            # Преобразуване на датите от низове в обекти datetime.date
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+
+            # Филтриране на поръчки според периода и статус "Доставена"
+            delivered_orders = Order.objects.filter(
+                status='delivered',
+                created_at__range=(start_date, end_date)
+            )
+
+            # Изчисляване на общия оборот
+            total_turnover = delivered_orders.aggregate(total=Sum('total_price'))['total'] or 0
+
+        except ValueError:
+            # Ако датите са невалидни, задаваме празни стойности
+            delivered_orders = None
+            total_turnover = 0
+
+    # Подаване на контекста към шаблона
+    context = {
+        'delivered_orders': delivered_orders,
+        'total_turnover': total_turnover,
+        'start_date': start_date,
+        'end_date': end_date,
+    }
+    return render(request, 'admin/turnover_report.html', context)
+
+@login_required
+def admin_dashboard(request):
+    if not request.user.is_staff:
+        return redirect('home')  # Само администратори могат да виждат тази страница
+
+    return render(request, 'accounts/admin_dashboard.html')
+
+def generate_turnover_report(request):
+    # Вземаме начална и крайна дата от GET параметрите
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if start_date and end_date:
+        try:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+
+            # Филтриране на доставените поръчки за периода
+            delivered_orders = Order.objects.filter(
+                status='delivered',
+                created_at__range=(start_date, end_date)
+            )
+
+            # Изчисляване на общия оборот
+            total_turnover = delivered_orders.aggregate(total=Sum('total_price'))['total'] or 0
+
+            # Подготвяме контекст за шаблона
+            context = {
+                'title': 'Справка за оборот',
+                'opts': Order._meta,
+                'delivered_orders': delivered_orders,
+                'total_turnover': total_turnover,
+                'start_date': start_date,
+                'end_date': end_date,
+            }
+            return render(request, 'admin/turnover_report.html', context)
+
+        except ValueError:
+            return render(request, 'admin/turnover_report_form.html', {'error': 'Невалидни дати.'})
+
+    # Ако няма дати, показваме формата за избор на период
+    return render(request, 'admin/turnover_report_form.html')
+
+
+def earnings_report(request, delivery_person_id):
+    delivery_person = get_object_or_404(DeliveryPerson, pk=delivery_person_id)
+    orders = Order.objects.filter(delivery_person=delivery_person, status='delivered')
+
+    # Изчисляване на общия оборот
+    total_turnover = sum(order.total_price for order in orders)
+
+    context = {
+        'delivery_person': delivery_person,
+        'orders': orders,
+        'total_turnover': total_turnover,
+    }
+    return render(request, 'admin/earnings_report.html', context)

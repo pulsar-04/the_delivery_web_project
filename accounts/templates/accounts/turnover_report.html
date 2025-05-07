@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Справка за оборот</title>
+</head>
+<body>
+    <h1>Справка за оборот</h1>
+
+    <!-- Форма за избор на период -->
+    <form method="get">
+        <label for="start_date">Начална дата:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date|default_if_none:'' }}" required>
+
+        <label for="end_date">Крайна дата:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date|default_if_none:'' }}" required>
+
+        <button type="submit">Генерирай справка</button>
+    </form>
+
+    {% if delivered_orders is not None %}
+        <h2>Оборот за периода: {{ total_turnover }} лв.</h2>
+
+        <h3>Детайли за поръчки:</h3>
+        <ul>
+            {% for order in delivered_orders %}
+                <li>
+                    Поръчка #{{ order.id }} -
+                    Обща цена: {{ order.total_price }} лв.,
+                    Дата: {{ order.created_at }}
+                </li>
+            {% empty %}
+                <li>Няма доставени поръчки за този период.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Линк за връщане към админ панела -->
+    <a href="{% url 'admin:index' %}">Обратно към админ панела</a>
+</body>
+</html>

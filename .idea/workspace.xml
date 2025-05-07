@@ -5,19 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba610552-8c48-4eb8-87cb-cf521706a21d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/checkout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/create_order.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/delivery_dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/track_orders.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/view_cart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/view_products.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/signals.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/admin_dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/turnover_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/supplier_income_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/supplier_income_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/turnover_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/turnover_report_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/delivery_earnings_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/delivery_earnings_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/earnings_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/revenue_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/revenue_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/revenue_result.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/supplier_income_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/supplier_income_report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/the_delivery_web.l6UGfw/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/the_delivery_web.l6UGfw/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/apps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0002_remove_order_restaurant_remove_product_category_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0003_product_category.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0004_alter_product_category.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0005_order_delivery_person.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0006_cartitem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/0007_order_address_order_phone_number.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/client_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/client_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/delete_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/delete_product.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/delivery_person_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/delivery_person_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/edit_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/edit_product.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/delivery_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/delivery_dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
     </list>
@@ -25,6 +47,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -61,6 +86,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -116,7 +142,13 @@
       <workItem from="1745263040135" duration="15000" />
       <workItem from="1745263396388" duration="1206000" />
       <workItem from="1745310407525" duration="1834000" />
-      <workItem from="1745409015484" duration="12517000" />
+      <workItem from="1745409015484" duration="14020000" />
+      <workItem from="1745565386327" duration="11138000" />
+      <workItem from="1745683622032" duration="3000" />
+      <workItem from="1746092057687" duration="5354000" />
+      <workItem from="1746271397499" duration="8026000" />
+      <workItem from="1746607642511" duration="5364000" />
+      <workItem from="1746631645418" duration="15502000" />
     </task>
     <servers />
   </component>

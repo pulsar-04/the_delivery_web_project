@@ -1,0 +1,10 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+{{ block.super }}
+<div>
+    <h2>Кастомни справки</h2>
+    <ul>
+        <li><a href="{% url 'turnover_report' %}">Справка за оборот</a></li>
+    </ul>
+</div>
+{% endblock %}

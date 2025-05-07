@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Справка за приходи</title>
+</head>
+<body>
+    <h1>Справка за приходи за доставчик: {{ delivery_person }}</h1>
+
+    <h2>Общ оборот: {{ total_turnover }} лв.</h2>
+
+    <h2>Доставени поръчки</h2>
+    <ul>
+        {% for order in orders %}
+            <li>
+                Поръчка #{{ order.id }} -
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>{{ item.quantity }} x {{ item.product.name }} ({{ item.price }} лв.)</li>
+                    {% endfor %}
+                </ul>
+                Адрес: {{ order.address }}<br>
+                Телефон: {{ order.phone_number }}<br>
+                Обща цена: {{ order.total_price }} лв.<br>
+                Статус: Доставена<br>
+            </li>
+        {% empty %}
+            <li>Няма доставени поръчки.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

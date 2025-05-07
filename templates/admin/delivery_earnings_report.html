@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div class="module">
+    <h2>Справка за оборот: {{ delivery_person.user.username }}</h2>
+    <div class="results">
+        <table>
+            <tr><th>Период:</th><td>{{ start_date }} до {{ end_date }}</td></tr>
+            <tr>
+                <th>Оборот за периода:</th>
+                <td>{{ period_turnover|floatformat:2 }} лв.</td>
+            </tr>
+            <tr>
+                <th>Общ оборот (всички периоди):</th>
+                <td>{{ total_turnover|floatformat:2 }} лв.</td>
+            </tr>
+            <tr><th>Брой поръчки:</th><td>{{ order_count }}</td></tr>
+        </table>
+    </div>
+    <a href="../" class="button">Назад</a>
+</div>
+{% endblock %}

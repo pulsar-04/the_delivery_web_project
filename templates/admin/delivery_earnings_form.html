@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div class="module">
+    <h2>Справка за приходи: {{ delivery_person.user.username }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <label for="start_date">От дата:</label>
+            <input type="date" name="start_date" required>
+        </div>
+        <div class="form-row">
+            <label for="end_date">До дата:</label>
+            <input type="date" name="end_date" required>
+        </div>
+        <div class="submit-row">
+            <input type="submit" value="Генерирай" class="default">
+        </div>
+    </form>
+</div>
+{% endblock %}
