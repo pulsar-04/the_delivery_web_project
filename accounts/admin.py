@@ -7,7 +7,7 @@ from django.template.response import TemplateResponse
 from django.db.models import Sum
 from datetime import datetime
 from django.urls import reverse
-from .models import DeliveryPerson
+from .models import DeliveryPerson, BonusSettings
 from django.contrib import admin
 from django.db.models import Sum, Count
 from django.urls import reverse
@@ -135,7 +135,8 @@ def export_to_csv(modeladmin, request, queryset):
 
 @admin.register(DeliveryPerson)
 class DeliveryPersonAdmin(admin.ModelAdmin):
-    list_display = ('user', 'vehicle_type', 'earnings_report_link')
+    list_display = ('user', 'vehicle_type', 'earnings_report_link', 'total_bonuses', 'total_turnover')
+    readonly_fields = ('total_bonuses',)
 
     def get_urls(self):
         urls = super().get_urls()
@@ -185,6 +186,15 @@ class DeliveryPersonAdmin(admin.ModelAdmin):
         return render(request, 'admin/delivery_earnings_form.html', {
             'delivery_person': delivery_person
         })
+@admin.register(BonusSettings)
+class BonusSettingsAdmin(admin.ModelAdmin):
+    list_display = ('min_turnover', 'bonus_amount', 'is_active')
+    list_editable = ('is_active',)
+
+
+
+
+
 
 # Регистрирайте всички модели
 admin.site.register(User)

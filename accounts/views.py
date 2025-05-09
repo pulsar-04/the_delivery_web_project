@@ -449,7 +449,7 @@ def earnings_report(request, delivery_person_id):
     orders = Order.objects.filter(delivery_person=delivery_person, status='delivered')
 
     # Изчисляване на общия оборот
-    total_turnover = sum(order.total_price for order in orders)
+    total_turnover = sum(order.total_price for order in orders) / 2
 
     context = {
         'delivery_person': delivery_person,

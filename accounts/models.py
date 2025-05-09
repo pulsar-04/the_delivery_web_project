@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from django.core.mail import send_mail
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
@@ -32,6 +32,13 @@ class DeliveryPerson(models.Model):
         default=0.00,
         help_text="Общ оборот, генериран от доставчика"
     )
+    total_bonuses = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        verbose_name="Общо получени бонуси"
+    )
+
 
     def __str__(self):
         return self.user.username
@@ -91,6 +98,40 @@ class Order(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)  # Поле за адрес
     phone_number = models.CharField(max_length=20, blank=True, null=True)  # Поле за телефонен номер
 
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+
+        # Ако поръчката вече съществува, взимаме стария статус
+        if not is_new:
+            old_order = Order.objects.get(pk=self.pk)
+            old_status = old_order.status
+        else:
+            old_status = None
+
+        # Първо записваме без да triger-ваме бонус логиката
+        super().save(*args, **kwargs)
+
+        # Проверка за бонус (само при промяна на статус на 'delivered')
+        if (is_new or old_status != 'delivered') and self.status == 'delivered':
+            if not hasattr(self, '_bonus_processed'):  # Критична проверка!
+                with transaction.atomic():
+                    delivery_person = DeliveryPerson.objects.select_for_update().get(pk=self.delivery_person_id)
+                    self._check_and_apply_bonus(delivery_person)  # Подаваме delivery_person
+                    self._bonus_processed = True
+
+    def _check_and_apply_bonus(self, delivery_person):
+        bonus_settings = BonusSettings.objects.filter(is_active=True).first()
+
+        # Добавяме САМО стойността на поръчката (без бонуса)
+        delivery_person.total_turnover += Decimal(str(self.total_price))
+
+        # Проверка за бонус
+        if bonus_settings and delivery_person.total_turnover >= bonus_settings.min_turnover:
+            delivery_person.total_turnover += bonus_settings.bonus_amount
+            delivery_person.total_bonuses += bonus_settings.bonus_amount
+
+        delivery_person.save(update_fields=['total_turnover', 'total_bonuses'])
+
     def __str__(self):
         return f"Поръчка #{self.id} от {self.client.user.username}"
 
@@ -120,3 +161,26 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.quantity} x {self.product.name} (Потребител: {self.user.username})"
 
+
+class BonusSettings(models.Model):
+    min_turnover = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Минимален оборот за бонус"
+    )
+    bonus_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Сума на бонуса"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="Активна настройка"
+    )
+
+    class Meta:
+        verbose_name = "Бонус настройка"
+        verbose_name_plural = "Бонус настройки"
+
+    def __str__(self):
+        return f"Бонус: {self.bonus_amount} лв. при оборот ≥ {self.min_turnover} лв."

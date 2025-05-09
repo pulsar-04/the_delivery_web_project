@@ -5,42 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba610552-8c48-4eb8-87cb-cf521706a21d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/accounts/signals.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/admin_dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/turnover_report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/supplier_income_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/supplier_income_report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/turnover_report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounts/templates/admin/turnover_report_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/delivery_earnings_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/delivery_earnings_report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/earnings_report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/revenue_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/revenue_report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/revenue_result.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/supplier_income_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/supplier_income_report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/the_delivery_web.l6UGfw/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2b543c7c-a278-4738-b087-cfd3004b38a8/storage_v2/_src_/database/the_delivery_web.l6UGfw/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounts/management/commands/calculate_bonuses.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/FOOD_DELIVERY_WEB/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0002_remove_order_restaurant_remove_product_category_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0003_product_category.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0004_alter_product_category.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0005_order_delivery_person.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0006_cartitem.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0007_order_address_order_phone_number.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/delivery_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/delivery_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/signals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,8 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -149,6 +118,11 @@
       <workItem from="1746271397499" duration="8026000" />
       <workItem from="1746607642511" duration="5364000" />
       <workItem from="1746631645418" duration="15502000" />
+      <workItem from="1746657663945" duration="205000" />
+      <workItem from="1746694812870" duration="583000" />
+      <workItem from="1746703241636" duration="1598000" />
+      <workItem from="1746704866728" duration="1750000" />
+      <workItem from="1746727723197" duration="7902000" />
     </task>
     <servers />
   </component>
