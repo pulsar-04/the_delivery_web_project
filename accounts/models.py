@@ -82,7 +82,6 @@ class Order(models.Model):
         ('delivered', 'Доставена'),
         ('cancelled', 'Отказана'),
     ]
-
     client = models.ForeignKey('Client', on_delete=models.CASCADE, related_name='orders')
     products = models.ManyToManyField(Product, through='OrderItem')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
